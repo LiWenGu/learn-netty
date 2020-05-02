@@ -1,5 +1,6 @@
 /**
  * 对应书顺序代码
+ *
  * 第一章
  * @see io.netty.cases.chapter1.EchoExitServer1
  * @see io.netty.cases.chapter1.EchoExitServer2
@@ -21,6 +22,12 @@
  * @see io.netty.cases.chapter3.RouterServerUnpooled
  * @see io.netty.cases.chapter3.RouterServerUnpooledV2
  * @see io.netty.cases.chapter3.PoolByteBufPerformanceTest
+ *
+ * 第四章
+ * @see io.netty.cases.chapter4.HttpServer 服务端，用于本章节的客户端测试
+ * @see io.netty.cases.chapter4.HttpClient
+ * @see io.netty.cases.chapter4.HttpClient2
+ * @see io.netty.cases.chapter4.HttpClient3
  *
  */
 package io.netty.cases;
