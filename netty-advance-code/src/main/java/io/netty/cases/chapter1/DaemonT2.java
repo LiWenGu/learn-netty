@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 李林峰 on 2018/8/3.
- * Updated by liwenguang on 2020/05/01
+ * Updated by liwenguang on 2020/05/01.
  * 非守护线程与主线程
  */
 public class DaemonT2 {

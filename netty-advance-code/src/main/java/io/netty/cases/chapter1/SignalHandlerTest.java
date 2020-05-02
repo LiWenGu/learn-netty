@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 李林峰 on 2018/8/3.
- * Updated by liwenguang on 2020/05/01
+ * Updated by liwenguang on 2020/05/01.
  * 注册 Shutdownhook 与 Signal 实现优雅停机
  */
 public class SignalHandlerTest {

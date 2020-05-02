@@ -13,7 +13,7 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
 
 /**
  * Created by 李林峰 on 2018/8/3.
- * Updated by liwenguang on 2020/05/01
+ * Updated by liwenguang on 2020/05/01.
  * 启动后会自动关闭
  */
 public class EchoExitServer1 {
