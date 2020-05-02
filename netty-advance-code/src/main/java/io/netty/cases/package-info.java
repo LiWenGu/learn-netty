@@ -29,5 +29,10 @@
  * @see io.netty.cases.chapter4.HttpClient2
  * @see io.netty.cases.chapter4.HttpClient3
  *
+ * 第五章
+ * @see io.netty.cases.chapter5.EchoServer 服务端，用于本章节的客户端测试
+ * @see io.netty.cases.chapter5.LoadRunnerClient
+ * @see io.netty.cases.chapter5.LoadRunnerWaterClient
+ * @see io.netty.cases.chapter5.LoadRunnerSleepClient 需要服务端配合
  */
 package io.netty.cases;
