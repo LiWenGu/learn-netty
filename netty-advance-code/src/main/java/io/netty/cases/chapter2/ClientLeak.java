@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by 李林峰 on 2018/8/5.
- * Updated by liwenguang on 2020/05/01.
+ * Updated by liwenguang on 2020/05/02.
  * 客户端错误的连接池创建方式导致内存泄漏
  */
 public final class ClientLeak {

@@ -11,10 +11,16 @@
  * @see io.netty.cases.chapter1.SignalHandlerTest
  *
  * 第二章
- * @see io.netty.cases.chapter2.MockServer 服务端的启动用于本章节的客户端测试
+ * @see io.netty.cases.chapter2.MockServer 服务端，用于本章节的客户端测试
  * @see io.netty.cases.chapter2.ClientLeak
  * @see io.netty.cases.chapter2.ClientPool
  * @see io.netty.cases.chapter2.ClientPoolError1
+ *
+ * 第三章
+ * @see io.netty.cases.chapter3.RouterClient 客户端，用于本章节的服务端测试
+ * @see io.netty.cases.chapter3.RouterServerUnpooled
+ * @see io.netty.cases.chapter3.RouterServerUnpooledV2
+ * @see io.netty.cases.chapter3.PoolByteBufPerformanceTest
  *
  */
 package io.netty.cases;
