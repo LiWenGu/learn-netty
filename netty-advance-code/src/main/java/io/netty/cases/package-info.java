@@ -34,5 +34,10 @@
  * @see io.netty.cases.chapter5.LoadRunnerClient
  * @see io.netty.cases.chapter5.LoadRunnerWaterClient
  * @see io.netty.cases.chapter5.LoadRunnerSleepClient 需要服务端配合
+ *
+ * 第六章
+ * @see io.netty.cases.chapter6.ApiGatewayClient 客户端，用于本章节的服务端测试
+ * @see io.netty.cases.chapter6.ApiGatewayServer 服务端，有内存泄漏的问题
+ * @see io.netty.cases.chapter6.ApiGatewayServer2 服务端，解决内存泄漏
  */
 package io.netty.cases;
