@@ -46,5 +46,9 @@
  * @see io.netty.cases.chapter7.NoThreadSecurityClient 非线程安全客户端，每个链路共享了业务 Handler 实例，且业务 Handler 自己没有保证线程安全
  * @see io.netty.cases.chapter7.ThreadSecurityClient2 线程安全客户端，每个链路共享了业务 Handler 实例，但业务 Handler 自己保证了线程安全
  *
+ * 第八章
+ * @see io.netty.cases.chapter8.IotCarsClient 客户端，用于本章节的服务端测试
+ * @see io.netty.cases.chapter8.IotCarsServer1 业务线程阻塞了 IO 线程
+ * @see io.netty.cases.chapter8.IotCarsServer2 业务线程使用直接抛弃策略不会阻塞 IO 线程
  */
 package io.netty.cases;
