@@ -50,5 +50,11 @@
  * @see io.netty.cases.chapter8.IotCarsClient 客户端，用于本章节的服务端测试
  * @see io.netty.cases.chapter8.IotCarsServer1 业务线程阻塞了 IO 线程
  * @see io.netty.cases.chapter8.IotCarsServer2 业务线程使用直接抛弃策略不会阻塞 IO 线程
+ *
+ * 第十章
+ * @see io.netty.cases.chapter10.ConcurrentPerformanceClient 测试1：未优化的客户端
+ * @see io.netty.cases.chapter10.ConcurrentPerformanceServer 测试1：未优化的服务端
+ * @see io.netty.cases.chapter10.ConcurrentPerformanceServer 测试2：本类为优化后正确的服务端，可以直接和未优化的客户端产生正确的 qps
+ * @see io.netty.cases.chapter10.MulChannelPerformanceClient 测试3：本类为优化后正确的客户端，可以直接和未优化的服务端产生正确的 qps
  */
 package io.netty.cases;
