@@ -56,5 +56,14 @@
  * @see io.netty.cases.chapter10.ConcurrentPerformanceServer 测试1：未优化的服务端
  * @see io.netty.cases.chapter10.ConcurrentPerformanceServer 测试2：本类为优化后正确的服务端，可以直接和未优化的客户端产生正确的 qps
  * @see io.netty.cases.chapter10.MulChannelPerformanceClient 测试3：本类为优化后正确的客户端，可以直接和未优化的服务端产生正确的 qps
+ *
+ * 第十二章
+ * @see io.netty.cases.chapter12.MockEdgeService 通过 Arrays.copyOf 拷贝的 Eden Space GC 例子
+ * @see io.netty.cases.chapter12.MockEdgeService2 通过直接返回的 Eden Space GC 例子
+ * @see io.netty.cases.chapter12.CloneTest 通过浅拷贝，导致引用重用了对象
+ * @see io.netty.cases.chapter12.CloneTest2 通过深拷贝，独立的引用
+ *
+ *
+ *
  */
 package io.netty.cases;
