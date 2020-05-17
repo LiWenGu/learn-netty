@@ -63,7 +63,11 @@
  * @see io.netty.cases.chapter12.CloneTest 通过浅拷贝，导致引用重用了对象
  * @see io.netty.cases.chapter12.CloneTest2 通过深拷贝，独立的引用
  *
- *
+ * 第十三章
+ * @see io.netty.cases.chapter13.ServiceTraceClient 客户端，用于本章节的服务端测试
+ * @see io.netty.cases.chapter13.ServiceTraceServer 统计有问题的服务端
+ * @see io.netty.cases.chapter13.ServiceTraceServerV2 正确统计了 qps、队列积压、线程池指标的服务端
+ * @see io.netty.cases.chapter13.ServiceTraceServerV3 在 V2 基础上，统计了消息读取速度指标的服务端
  *
  */
 package io.netty.cases;
