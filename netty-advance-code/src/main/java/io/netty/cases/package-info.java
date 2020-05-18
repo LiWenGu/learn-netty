@@ -69,5 +69,9 @@
  * @see io.netty.cases.chapter13.ServiceTraceServerV2 正确统计了 qps、队列积压、线程池指标的服务端
  * @see io.netty.cases.chapter13.ServiceTraceServerV3 在 V2 基础上，统计了消息读取速度指标的服务端
  *
+ * 第十五章
+ * @see io.netty.cases.chapter15.EventTriggerClient 客户端，用于本章节的服务端测试
+ * @see io.netty.cases.chapter15.EventTriggerServer 服务端，多次调用 channelReadComplete
+ *
  */
 package io.netty.cases;
