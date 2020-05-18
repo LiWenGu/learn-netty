@@ -72,6 +72,7 @@
  * 第十五章
  * @see io.netty.cases.chapter15.EventTriggerClient 客户端，用于本章节的服务端测试
  * @see io.netty.cases.chapter15.EventTriggerServer 服务端，多次调用 channelReadComplete
+ * @see io.netty.cases.chapter15.EventTriggerClient 异常客户端，由于没有判断发送时状态，导致队列阻塞造成 OOM
  *
  */
 package io.netty.cases;
