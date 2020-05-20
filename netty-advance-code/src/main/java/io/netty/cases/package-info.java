@@ -79,6 +79,9 @@
  * @see io.netty.cases.chapter16.TrafficShappingClient2 异常客户端，由于没有判断发送时状态，导致队列阻塞造成 OOM
  *
  * 第十八章
+ * @see io.netty.cases.chapter18.DiscardClient Ssl 客户端
+ * @see io.netty.cases.chapter18.DiscardServer Ssl 服务端，监听 Ssl 连接完成事件
+ *
  *
  */
 package io.netty.cases;
