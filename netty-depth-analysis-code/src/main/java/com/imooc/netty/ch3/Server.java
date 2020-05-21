@@ -14,7 +14,9 @@ import io.netty.util.AttributeKey;
 public final class Server {
 
     public static void main(String[] args) throws Exception {
+        // 主线程
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+        // 业务线程
         EventLoopGroup workerGroup = new NioEventLoopGroup();
 
         try {
@@ -32,7 +34,7 @@ public final class Server {
 
                         }
                     });
-
+            // 注释三：1. 创建服务端 channel
             ChannelFuture f = b.bind(8888).sync();
 
             f.channel().closeFuture().sync();
