@@ -18,17 +18,12 @@
         <!-- Netty进阶之路 -->
         <module>netty-advance-code</module>
         <module>netty-advance-resources</module>
-    </modules>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.netty</groupId>
-                <artifactId>netty-all</artifactId>
-                <version>${netty-version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+        <!-- Netty深入剖析 -->
+        <module>netty-depth-analysis-code</module>
+        <!-- 4.1.7.Final 源码-->
+        <module>netty-depth-analysis-source</module>
+    </modules>
 
     <build>
         <plugins>
