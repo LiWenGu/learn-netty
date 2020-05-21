@@ -14,7 +14,7 @@
     
     <properties>
         <netty-group>io.netty</netty-group>
-        <netty.version>4.1.6.Final</netty.version>
+        <netty.version>4.1.50.Final</netty.version>
     </properties>
     <dependencies>
         <!--<dependency>
