@@ -15,6 +15,9 @@
  */
 package io.netty.util.concurrent;
 
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
+
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -35,6 +38,7 @@ public abstract class MultithreadEventExecutorGroup extends AbstractEventExecuto
     private final AtomicInteger terminatedChildren = new AtomicInteger();
     private final Promise<?> terminationFuture = new DefaultPromise(GlobalEventExecutor.INSTANCE);
     private final EventExecutorChooserFactory.EventExecutorChooser chooser;
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(MultithreadEventExecutorGroup.class);
 
     /**
      * Create a new instance.
@@ -71,16 +75,18 @@ public abstract class MultithreadEventExecutorGroup extends AbstractEventExecuto
         if (nThreads <= 0) {
             throw new IllegalArgumentException(String.format("nThreads: %d (expected: > 0)", nThreads));
         }
-
+        logger.info("注释四：1. 线程创建器");
         if (executor == null) {
             executor = new ThreadPerTaskExecutor(newDefaultThreadFactory());
         }
 
         children = new EventExecutor[nThreads];
-
+        logger.info("注释四：1. 构造 NioEventLoop");
         for (int i = 0; i < nThreads; i ++) {
             boolean success = false;
             try {
+                logger.info("注释四：1. newChild()");
+                logger.info("注释四：3. NioEventLoop 初始化了，会绑定 selector");
                 children[i] = newChild(executor, args);
                 success = true;
             } catch (Exception e) {
@@ -107,7 +113,7 @@ public abstract class MultithreadEventExecutorGroup extends AbstractEventExecuto
                 }
             }
         }
-
+        logger.info("注释四：1. 线程选择器，newChooser");
         chooser = chooserFactory.newChooser(children);
 
         final FutureListener<Object> terminationListener = new FutureListener<Object>() {

@@ -16,6 +16,9 @@
 
 package io.netty.util.concurrent;
 
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
+
 import java.util.Queue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Delayed;
@@ -26,6 +29,7 @@ import java.util.concurrent.atomic.AtomicLong;
 final class ScheduledFutureTask<V> extends PromiseTask<V> implements ScheduledFuture<V> {
     private static final AtomicLong nextTaskId = new AtomicLong();
     private static final long START_TIME = System.nanoTime();
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(ScheduledFutureTask.class);
 
     static long nanoTime() {
         return System.nanoTime() - START_TIME;
@@ -95,7 +99,7 @@ final class ScheduledFutureTask<V> extends PromiseTask<V> implements ScheduledFu
         if (this == o) {
             return 0;
         }
-
+        logger.info("注释四：3. 定时任务优先级对比，根据截至时间来对比优先级");
         ScheduledFutureTask<?> that = (ScheduledFutureTask<?>) o;
         long d = deadlineNanos() - that.deadlineNanos();
         if (d < 0) {

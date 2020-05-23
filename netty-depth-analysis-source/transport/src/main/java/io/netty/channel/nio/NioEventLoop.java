@@ -145,6 +145,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
             throw new NullPointerException("selectStrategy");
         }
         provider = selectorProvider;
+        logger.info("注释四：1. selector 和 nioeventloop 绑定");
         selector = openSelector();
         selectStrategy = strategy;
     }
@@ -160,7 +161,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
         if (DISABLE_KEYSET_OPTIMIZATION) {
             return selector;
         }
-
+        logger.info("注释四：3. 反射替换 selectedKeySet 优化，用数组优化");
         final SelectedSelectionKeySet selectedKeySet = new SelectedSelectionKeySet();
 
         Object maybeSelectorImplClass = AccessController.doPrivileged(new PrivilegedAction<Object>() {
@@ -391,12 +392,14 @@ public final class NioEventLoop extends SingleThreadEventLoop {
 
     @Override
     protected void run() {
+        logger.info("注释四：3. 主线程死循环开始");
         for (;;) {
             try {
                 switch (selectStrategy.calculateStrategy(selectNowSupplier, hasTasks())) {
                     case SelectStrategy.CONTINUE:
                         continue;
                     case SelectStrategy.SELECT:
+                        logger.info("注释四：3. wakenUp 标记为未唤醒状态");
                         select(wakenUp.getAndSet(false));
 
                         // 'wakenUp.compareAndSet(false, true)' is always evaluated
@@ -436,6 +439,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
 
                 cancelledKeys = 0;
                 needsToSelectAgain = false;
+                logger.info("注释四：3. ioRatio 用于处理 io 事件和用户任务事件");
                 final int ioRatio = this.ioRatio;
                 if (ioRatio == 100) {
                     try {
@@ -485,6 +489,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
 
     private void processSelectedKeys() {
         if (selectedKeys != null) {
+            logger.info("注释四：3. 使用优化后的 processSelectedKeysOptimized");
             processSelectedKeysOptimized(selectedKeys.flip());
         } else {
             processSelectedKeysPlain(selector.selectedKeys());
@@ -647,6 +652,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
 
             // Also check for readOps of 0 to workaround possible JDK bug which may otherwise lead
             // to a spin loop
+            logger.info("注释四：3. selector 事件监听");
             if ((readyOps & (SelectionKey.OP_READ | SelectionKey.OP_ACCEPT)) != 0 || readyOps == 0) {
                 unsafe.read();
                 if (!ch.isOpen()) {
@@ -740,6 +746,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
                 long timeoutMillis = (selectDeadLineNanos - currentTimeNanos + 500000L) / 1000000L;
                 if (timeoutMillis <= 0) {
                     if (selectCnt == 0) {
+                        logger.info("注释四：3. 到了截止时间，但是还没操作过 select，则直接进行 selectNow");
                         selector.selectNow();
                         selectCnt = 1;
                     }
@@ -750,12 +757,13 @@ public final class NioEventLoop extends SingleThreadEventLoop {
                 // Selector#wakeup. So we need to check task queue again before executing select operation.
                 // If we don't, the task might be pended until select operation was timed out.
                 // It might be pended until idle timeout if IdleStateHandler existed in pipeline.
+                logger.info("注释四：3. 外部是否有任务队列进来，wakenUp 设置为 true");
                 if (hasTasks() && wakenUp.compareAndSet(false, true)) {
                     selector.selectNow();
                     selectCnt = 1;
                     break;
                 }
-
+                logger.info("注释四：3. 阻塞式 select");
                 int selectedKeys = selector.select(timeoutMillis);
                 selectCnt ++;
 
@@ -782,9 +790,11 @@ public final class NioEventLoop extends SingleThreadEventLoop {
                 }
 
                 long time = System.nanoTime();
+                logger.info("注释四：3. 经过 select 阻塞操作后，再判断一个阻塞实际发生时间，发现实际并没有阻塞，而是立即返回，说明这是个空轮询 bug，需要重建");
                 if (time - TimeUnit.MILLISECONDS.toNanos(timeoutMillis) >= currentTimeNanos) {
                     // timeoutMillis elapsed without anything selected.
                     selectCnt = 1;
+                    logger.info("注释四：3. 空轮询 512 后 rebuildSelector 重建 selector");
                 } else if (SELECTOR_AUTO_REBUILD_THRESHOLD > 0 &&
                         selectCnt >= SELECTOR_AUTO_REBUILD_THRESHOLD) {
                     // The selector returned prematurely many times in a row.

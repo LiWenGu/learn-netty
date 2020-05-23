@@ -16,6 +16,8 @@
 package io.netty.util.concurrent;
 
 import io.netty.util.internal.UnstableApi;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -26,12 +28,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 public final class DefaultEventExecutorChooserFactory implements EventExecutorChooserFactory {
 
     public static final DefaultEventExecutorChooserFactory INSTANCE = new DefaultEventExecutorChooserFactory();
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(DefaultEventExecutorChooserFactory.class);
 
     private DefaultEventExecutorChooserFactory() { }
 
     @SuppressWarnings("unchecked")
     @Override
     public EventExecutorChooser newChooser(EventExecutor[] executors) {
+        logger.info("注释四：1. newChooser 优化：PowerOfTowEventExecutorChooser");
         if (isPowerOfTwo(executors.length)) {
             return new PowerOfTowEventExecutorChooser(executors);
         } else {

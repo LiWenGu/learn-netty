@@ -17,6 +17,8 @@
 package io.netty.util.concurrent;
 
 import io.netty.util.internal.StringUtil;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.util.Locale;
 import java.util.concurrent.ThreadFactory;
@@ -34,6 +36,7 @@ public class DefaultThreadFactory implements ThreadFactory {
     private final boolean daemon;
     private final int priority;
     protected final ThreadGroup threadGroup;
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(DefaultThreadFactory.class);
 
     public DefaultThreadFactory(Class<?> poolType) {
         this(poolType, false, Thread.NORM_PRIORITY);
@@ -127,6 +130,7 @@ public class DefaultThreadFactory implements ThreadFactory {
     }
 
     protected Thread newThread(Runnable r, String name) {
+        logger.info("注释四：1. 初始化 FastThreadLocalThread，优化了 ThreadLocal");
         return new FastThreadLocalThread(threadGroup, r, name);
     }
 

@@ -16,6 +16,8 @@
 package io.netty.util.concurrent;
 
 import io.netty.util.internal.ObjectUtil;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -29,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class AbstractScheduledEventExecutor extends AbstractEventExecutor {
 
     Queue<ScheduledFutureTask<?>> scheduledTaskQueue;
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(AbstractScheduledEventExecutor.class);
 
     protected AbstractScheduledEventExecutor() {
     }
@@ -95,6 +98,7 @@ public abstract class AbstractScheduledEventExecutor extends AbstractEventExecut
         }
 
         if (scheduledTask.deadlineNanos() <= nanoTime) {
+            logger.info("注释四：3. 拿出来的定时任务截至时间判定，因此是不准确的");
             scheduledTaskQueue.remove();
             return scheduledTask;
         }
@@ -191,6 +195,7 @@ public abstract class AbstractScheduledEventExecutor extends AbstractEventExecut
     }
 
     <V> ScheduledFuture<V> schedule(final ScheduledFutureTask<V> task) {
+        logger.info("注释四：3. 定时任务队列添加，由于定时任务队列非线程安全，因此对当前线程做了判断：是否是在 Netty 线程还是用户线程，来做额外的线程安全处理");
         if (inEventLoop()) {
             scheduledTaskQueue().add(task);
         } else {
