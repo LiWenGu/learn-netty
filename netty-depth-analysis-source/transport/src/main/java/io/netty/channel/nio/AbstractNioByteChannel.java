@@ -28,6 +28,8 @@ import io.netty.channel.FileRegion;
 import io.netty.channel.RecvByteBufAllocator;
 import io.netty.channel.socket.ChannelInputShutdownEvent;
 import io.netty.util.internal.StringUtil;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.io.IOException;
 import java.nio.channels.SelectableChannel;
@@ -41,6 +43,7 @@ public abstract class AbstractNioByteChannel extends AbstractNioChannel {
     private static final String EXPECTED_TYPES =
             " (expected: " + StringUtil.simpleClassName(ByteBuf.class) + ", " +
             StringUtil.simpleClassName(FileRegion.class) + ')';
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(AbstractNioByteChannel.class);
 
     private Runnable flushTask;
 
@@ -52,6 +55,7 @@ public abstract class AbstractNioByteChannel extends AbstractNioChannel {
      */
     protected AbstractNioByteChannel(Channel parent, SelectableChannel ch) {
         super(parent, ch, SelectionKey.OP_READ);
+        logger.info("注释五：2. AabstractNioByteChannel(p, ch, op_read)");
     }
 
     /**

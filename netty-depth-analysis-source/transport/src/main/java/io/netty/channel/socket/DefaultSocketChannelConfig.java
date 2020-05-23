@@ -22,7 +22,10 @@ import io.netty.channel.DefaultChannelConfig;
 import io.netty.channel.MessageSizeEstimator;
 import io.netty.channel.RecvByteBufAllocator;
 import io.netty.channel.WriteBufferWaterMark;
+import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.internal.PlatformDependent;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.net.Socket;
 import java.net.SocketException;
@@ -38,6 +41,7 @@ public class DefaultSocketChannelConfig extends DefaultChannelConfig
 
     protected final Socket javaSocket;
     private volatile boolean allowHalfClosure;
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(DefaultSocketChannelConfig.class);
 
     /**
      * Creates a new instance.
@@ -50,6 +54,7 @@ public class DefaultSocketChannelConfig extends DefaultChannelConfig
         this.javaSocket = javaSocket;
 
         // Enable TCP_NODELAY by default if possible.
+        logger.info("注释五：2. setTcpNoDelay(true)：禁止 Nagle 算法");
         if (PlatformDependent.canEnableTcpNoDelayByDefault()) {
             try {
                 setTcpNoDelay(true);

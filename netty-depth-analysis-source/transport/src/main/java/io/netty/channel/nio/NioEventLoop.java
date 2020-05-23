@@ -607,6 +607,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
     }
 
     private void processSelectedKey(SelectionKey k, AbstractNioChannel ch) {
+        logger.info("注释五：1. 客户端 telnet 之后，服务端响应：processSelectedKey(key, channel)：入口");
         final AbstractNioChannel.NioUnsafe unsafe = ch.unsafe();
         if (!k.isValid()) {
             final EventLoop eventLoop;
@@ -654,6 +655,7 @@ public final class NioEventLoop extends SingleThreadEventLoop {
             // to a spin loop
             logger.info("注释四：3. selector 事件监听");
             if ((readyOps & (SelectionKey.OP_READ | SelectionKey.OP_ACCEPT)) != 0 || readyOps == 0) {
+                logger.info("注释五：1. NioMessageUnsafe.read()");
                 unsafe.read();
                 if (!ch.isOpen()) {
                     // Connection already closed - no need to handle write.

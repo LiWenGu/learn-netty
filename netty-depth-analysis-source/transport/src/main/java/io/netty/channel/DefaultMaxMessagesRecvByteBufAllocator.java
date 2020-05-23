@@ -17,6 +17,9 @@ package io.netty.channel;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
+import io.netty.channel.nio.AbstractNioMessageChannel;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 /**
  * Default implementation of {@link MaxMessagesRecvByteBufAllocator} which respects {@link ChannelConfig#isAutoRead()}
@@ -24,6 +27,7 @@ import io.netty.buffer.ByteBufAllocator;
  */
 public abstract class DefaultMaxMessagesRecvByteBufAllocator implements MaxMessagesRecvByteBufAllocator {
     private volatile int maxMessagesPerRead;
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(DefaultMaxMessagesRecvByteBufAllocator.class);
 
     public DefaultMaxMessagesRecvByteBufAllocator() {
         this(1);
@@ -96,6 +100,7 @@ public abstract class DefaultMaxMessagesRecvByteBufAllocator implements MaxMessa
 
         @Override
         public boolean continueReading() {
+            logger.info("注释五：1. 继续读连接的逻辑判断，例如最大读连接数 16 限定等");
             return config.isAutoRead() &&
                    attemptedBytesRead == lastBytesRead &&
                    totalMessages < maxMessagePerRead &&
