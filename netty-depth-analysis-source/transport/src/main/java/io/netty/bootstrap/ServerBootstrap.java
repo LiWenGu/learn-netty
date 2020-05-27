@@ -182,6 +182,7 @@ public class ServerBootstrap extends AbstractBootstrap<ServerBootstrap, ServerCh
                 // of this we need to ensure we add our handler in a delayed fashion so all the users handler are
                 // placed in front of the ServerBootstrapAcceptor.
                 logger.info("注释三：2. 添加连接器");
+                logger.info("注释五：4. 初始化 ServerBootstrapAcceptor 用于读取 channelRead");
                 ch.eventLoop().execute(new Runnable() {
                     @Override
                     public void run() {
@@ -236,9 +237,9 @@ public class ServerBootstrap extends AbstractBootstrap<ServerBootstrap, ServerCh
         @SuppressWarnings("unchecked")
         public void channelRead(ChannelHandlerContext ctx, Object msg) {
             final Channel child = (Channel) msg;
-
+            logger.info("注释五：4. 添加 childHandler");
             child.pipeline().addLast(childHandler);
-
+            logger.info("注释五：4. 设置 options 和 attrs");
             for (Entry<ChannelOption<?>, Object> e: childOptions) {
                 try {
                     if (!child.config().setOption((ChannelOption<Object>) e.getKey(), e.getValue())) {
@@ -254,6 +255,7 @@ public class ServerBootstrap extends AbstractBootstrap<ServerBootstrap, ServerCh
             }
 
             try {
+                logger.info("注释五：4. 选择 NioEventLoop 并注册 selector");
                 childGroup.register(child).addListener(new ChannelFutureListener() {
                     @Override
                     public void operationComplete(ChannelFuture future) throws Exception {
