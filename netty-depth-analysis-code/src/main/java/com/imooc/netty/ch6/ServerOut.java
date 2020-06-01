@@ -13,7 +13,7 @@ import io.netty.util.AttributeKey;
 /**
  * @author
  */
-public final class Server {
+public final class ServerOut {
 
     public static void main(String[] args) throws Exception {
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
@@ -29,8 +29,8 @@ public final class Server {
                         @Override
                         public void initChannel(SocketChannel ch) {
                             ch.pipeline().addLast(new OutBoundHandlerA());
-                            ch.pipeline().addLast(new OutBoundHandlerC());
                             ch.pipeline().addLast(new OutBoundHandlerB());
+                            ch.pipeline().addLast(new OutBoundHandlerC());
                         }
                     });
 

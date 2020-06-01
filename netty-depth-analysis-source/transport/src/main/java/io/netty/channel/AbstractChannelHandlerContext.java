@@ -264,6 +264,7 @@ abstract class AbstractChannelHandlerContext extends DefaultAttributeMap
 
     @Override
     public ChannelHandlerContext fireExceptionCaught(final Throwable cause) {
+        logger.info("注释五：6. 异常直接传播到下一个链表，即不区分 in/out，而是链表添加顺序");
         invokeExceptionCaught(next, cause);
         return this;
     }

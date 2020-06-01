@@ -13,6 +13,6 @@ public class OutBoundHandlerC extends ChannelOutboundHandlerAdapter {
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         System.out.println("OutBoundHandlerC: " + msg);
         ctx.write(msg, promise);
-        throw new BusinessException("from OutBoundHandlerC");
+        // throw new BusinessException("from OutBoundHandlerC");
     }
 }

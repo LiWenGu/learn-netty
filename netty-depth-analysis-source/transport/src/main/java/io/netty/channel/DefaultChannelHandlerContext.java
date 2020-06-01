@@ -16,14 +16,18 @@
 package io.netty.channel;
 
 import io.netty.util.concurrent.EventExecutor;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 final class DefaultChannelHandlerContext extends AbstractChannelHandlerContext {
 
     private final ChannelHandler handler;
+    static final InternalLogger logger = InternalLoggerFactory.getInstance(DefaultChannelHandlerContext.class);
 
     DefaultChannelHandlerContext(
             DefaultChannelPipeline pipeline, EventExecutor executor, String name, ChannelHandler handler) {
         super(pipeline, executor, name, isInbound(handler), isOutbound(handler));
+        logger.info("注释六：4 通过 instanceof ChannelInboundHandler/ChannelOutboundHandler 判断是否是 inbound 还是 outbound");
         if (handler == null) {
             throw new NullPointerException("handler");
         }

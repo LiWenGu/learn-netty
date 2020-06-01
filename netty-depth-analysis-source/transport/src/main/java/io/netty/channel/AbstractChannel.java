@@ -80,6 +80,7 @@ public abstract class AbstractChannel extends DefaultAttributeMap implements Cha
         logger.info("注释五：2. create id, unsafe, pipeline");
         id = newId();
         unsafe = newUnsafe();
+        logger.info("注释六：1. Pipeline 在创建 Channel 的时候被创建");
         pipeline = newChannelPipeline();
     }
 

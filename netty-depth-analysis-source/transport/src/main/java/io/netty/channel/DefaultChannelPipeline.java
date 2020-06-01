@@ -88,7 +88,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
         this.channel = ObjectUtil.checkNotNull(channel, "channel");
         succeededFuture = new SucceededChannelFuture(channel, null);
         voidPromise =  new VoidChannelPromise(channel, true);
-
+        logger.info("注释五：1. Pipeline 节点数据结构：ChannelHandlerContext");
         tail = new TailContext(this);
         head = new HeadContext(this);
 
@@ -196,10 +196,11 @@ public class DefaultChannelPipeline implements ChannelPipeline {
     public final ChannelPipeline addLast(EventExecutorGroup group, String name, ChannelHandler handler) {
         final AbstractChannelHandlerContext newCtx;
         synchronized (this) {
+            logger.info("注释六：1. 判断是否重复添加");
             checkMultiplicity(handler);
 
             newCtx = newContext(group, filterName(name, handler), handler);
-
+            logger.info("注释六：2. 创建节点并添加至链表（ChannelHandlerContext）");
             addLast0(newCtx);
 
             // If the registered is false it means that the channel was not registered on an eventloop yet.
@@ -210,7 +211,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
                 callHandlerCallbackLater(newCtx, true);
                 return this;
             }
-
+            logger.info("注释六：2. 继续判断是否用户线程，封装任务");
             EventExecutor executor = newCtx.executor();
             if (!executor.inEventLoop()) {
                 newCtx.setAddPending();
@@ -442,7 +443,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
 
     private AbstractChannelHandlerContext remove(final AbstractChannelHandlerContext ctx) {
         assert ctx != head && ctx != tail;
-
+        logger.info("注释六：3. 链表的删除");
         synchronized (this) {
             remove0(ctx);
 
@@ -594,6 +595,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
 
     private void callHandlerAdded0(final AbstractChannelHandlerContext ctx) {
         try {
+            logger.info("注释六：2. io.netty.channel.ChannelInitializer.handlerAdded");
             ctx.handler().handlerAdded(ctx);
             ctx.setAddComplete();
         } catch (Throwable t) {
@@ -628,6 +630,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
         // Notify the complete removal.
         try {
             try {
+                logger.info("注释六：3. 回调删除 Handler 事件");
                 ctx.handler().handlerRemoved(ctx);
             } finally {
                 ctx.setRemoved();
@@ -719,7 +722,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
         if (handler == null) {
             throw new NullPointerException("handler");
         }
-
+        logger.info("注释六：3. 找到节点");
         AbstractChannelHandlerContext ctx = head.next;
         for (;;) {
 
@@ -1175,6 +1178,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
 
         TailContext(DefaultChannelPipeline pipeline) {
             super(pipeline, null, TAIL_NAME, true, false);
+            logger.info("注释五：1. tail，inbound");
             setAddComplete();
         }
 
@@ -1232,6 +1236,7 @@ public class DefaultChannelPipeline implements ChannelPipeline {
 
         HeadContext(DefaultChannelPipeline pipeline) {
             super(pipeline, null, HEAD_NAME, false, true);
+            logger.info("注释五：1. head，outbound");
             unsafe = pipeline.channel().unsafe();
             setAddComplete();
         }
