@@ -19,6 +19,8 @@ package io.netty.buffer;
 import io.netty.util.internal.LongCounter;
 import io.netty.util.internal.PlatformDependent;
 import io.netty.util.internal.StringUtil;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -29,6 +31,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static java.lang.Math.max;
 
 abstract class PoolArena<T> implements PoolArenaMetric {
+
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(PoolArena.class);
+
     static final boolean HAS_UNSAFE = PlatformDependent.hasUnsafe();
 
     enum SizeClass {
@@ -137,6 +142,8 @@ abstract class PoolArena<T> implements PoolArenaMetric {
     abstract boolean isDirect();
 
     PooledByteBuf<T> allocate(PoolThreadCache cache, int reqCapacity, int maxCapacity) {
+        logger.info("注释七：6. 从对象池里面拿到 PooledByteBuf进行复用");
+        logger.info("注释七：6. 从缓存上进行内存分配");
         PooledByteBuf<T> buf = newByteBuf(maxCapacity);
         allocate(cache, buf, reqCapacity);
         return buf;

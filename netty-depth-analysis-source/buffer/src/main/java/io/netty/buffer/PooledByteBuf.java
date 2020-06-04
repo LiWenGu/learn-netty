@@ -18,11 +18,15 @@ package io.netty.buffer;
 
 import io.netty.util.Recycler;
 import io.netty.util.Recycler.Handle;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 abstract class PooledByteBuf<T> extends AbstractReferenceCountedByteBuf {
+
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(PoolArena.class);
 
     private final Recycler.Handle<PooledByteBuf<T>> recyclerHandle;
 
@@ -71,6 +75,7 @@ abstract class PooledByteBuf<T> extends AbstractReferenceCountedByteBuf {
      * Method must be called before reuse this {@link PooledByteBufAllocator}
      */
     final void reuse(int maxCapacity) {
+        logger.info("注释七： 6. 设置一些可回收的必要参数，例如引用数");
         maxCapacity(maxCapacity);
         setRefCnt(1);
         setIndex0(0, 0);

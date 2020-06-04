@@ -157,6 +157,7 @@ public class PooledByteBufAllocator extends AbstractByteBufAllocator {
     public PooledByteBufAllocator(boolean preferDirect, int nHeapArena, int nDirectArena, int pageSize, int maxOrder,
                                   int tinyCacheSize, int smallCacheSize, int normalCacheSize) {
         super(preferDirect);
+        logger.info("注释七：5. 线程局部缓存 PoolThreadLocalCache");
         threadCache = new PoolThreadLocalCache();
         this.tinyCacheSize = tinyCacheSize;
         this.smallCacheSize = smallCacheSize;
@@ -255,10 +256,12 @@ public class PooledByteBufAllocator extends AbstractByteBufAllocator {
     @Override
     protected ByteBuf newDirectBuffer(int initialCapacity, int maxCapacity) {
         PoolThreadCache cache = threadCache.get();
+        logger.info("注释七：5. 在线程局部缓存的 Area 上进行内存分配");
         PoolArena<ByteBuffer> directArena = cache.directArena;
 
         ByteBuf buf;
         if (directArena != null) {
+            logger.info("注释七：6. directArena 分配");
             buf = directArena.allocate(cache, initialCapacity, maxCapacity);
         } else {
             if (PlatformDependent.hasUnsafe()) {

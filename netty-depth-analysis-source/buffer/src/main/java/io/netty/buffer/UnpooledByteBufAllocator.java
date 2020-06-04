@@ -16,11 +16,15 @@
 package io.netty.buffer;
 
 import io.netty.util.internal.PlatformDependent;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 /**
  * Simplistic {@link ByteBufAllocator} implementation that does not pool anything.
  */
 public final class UnpooledByteBufAllocator extends AbstractByteBufAllocator {
+
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(UnpooledByteBufAllocator.class);
 
     private final boolean disableLeakDetector;
 
@@ -62,6 +66,7 @@ public final class UnpooledByteBufAllocator extends AbstractByteBufAllocator {
 
     @Override
     protected ByteBuf newDirectBuffer(int initialCapacity, int maxCapacity) {
+        logger.info("注释七：4. direct 内存的分配");
         ByteBuf buf = PlatformDependent.hasUnsafe() ?
                 UnsafeByteBufUtil.newUnsafeDirectByteBuf(this, initialCapacity, maxCapacity) :
                 new UnpooledDirectByteBuf(this, initialCapacity, maxCapacity);
