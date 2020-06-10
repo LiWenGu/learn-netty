@@ -143,8 +143,8 @@ abstract class PoolArena<T> implements PoolArenaMetric {
 
     PooledByteBuf<T> allocate(PoolThreadCache cache, int reqCapacity, int maxCapacity) {
         logger.info("注释七：6. 从对象池里面拿到 PooledByteBuf进行复用");
-        logger.info("注释七：6. 从缓存上进行内存分配");
         PooledByteBuf<T> buf = newByteBuf(maxCapacity);
+        logger.info("注释七：6. 从缓存上进行内存分配");
         allocate(cache, buf, reqCapacity);
         return buf;
     }
@@ -179,6 +179,7 @@ abstract class PoolArena<T> implements PoolArenaMetric {
             int tableIdx;
             PoolSubpage<T>[] table;
             boolean tiny = isTiny(normCapacity);
+            logger.info("注释七：6. 从缓存分配");
             if (tiny) { // < 512
                 if (cache.allocateTiny(this, buf, reqCapacity, normCapacity)) {
                     // was able to allocate out of the cache so move on
@@ -201,6 +202,7 @@ abstract class PoolArena<T> implements PoolArenaMetric {
              * Synchronize on the head. This is needed as {@link PoolChunk#allocateSubpage(int)} and
              * {@link PoolChunk#free(long)} may modify the doubly linked list as well.
              */
+            logger.info("注释七：6. 从内存堆中分配");
             synchronized (head) {
                 final PoolSubpage<T> s = head.next;
                 if (s != head) {
@@ -257,6 +259,7 @@ abstract class PoolArena<T> implements PoolArenaMetric {
     }
 
     void free(PoolChunk<T> chunk, long handle, int normCapacity, PoolThreadCache cache) {
+        logger.info("注释七：10 释放");
         if (chunk.unpooled) {
             int size = chunk.chunkSize();
             destroyChunk(chunk);
