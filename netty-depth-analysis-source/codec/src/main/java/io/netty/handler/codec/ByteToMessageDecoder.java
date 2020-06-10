@@ -23,6 +23,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.socket.ChannelInputShutdownEvent;
 import io.netty.util.internal.StringUtil;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.util.List;
 
@@ -69,6 +71,8 @@ import java.util.List;
  */
 public abstract class ByteToMessageDecoder extends ChannelInboundHandlerAdapter {
 
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(ByteToMessageDecoder.class);
+
     /**
      * Cumulate {@link ByteBuf}s by merge them into one {@link ByteBuf}'s, using memory copies.
      */
@@ -76,6 +80,7 @@ public abstract class ByteToMessageDecoder extends ChannelInboundHandlerAdapter 
         @Override
         public ByteBuf cumulate(ByteBufAllocator alloc, ByteBuf cumulation, ByteBuf in) {
             ByteBuf buffer;
+            logger.info("注释八：1. 判断累加器是否容纳下该次的字节，即判断是否需要扩容");
             if (cumulation.writerIndex() > cumulation.maxCapacity() - in.readableBytes()
                     || cumulation.refCnt() > 1) {
                 // Expand cumulation (by replace it) when either there is not more room in the buffer
@@ -243,8 +248,10 @@ public abstract class ByteToMessageDecoder extends ChannelInboundHandlerAdapter 
                 if (first) {
                     cumulation = data;
                 } else {
+                    logger.info("注释八：1. 累加字节流");
                     cumulation = cumulator.cumulate(ctx.alloc(), cumulation, data);
                 }
+                logger.info("注释八：1. 调用子类 decode 解析");
                 callDecode(ctx, cumulation, out);
             } catch (DecoderException e) {
                 throw e;
@@ -264,6 +271,7 @@ public abstract class ByteToMessageDecoder extends ChannelInboundHandlerAdapter 
 
                 int size = out.size();
                 decodeWasNull = !out.insertSinceRecycled();
+                logger.info("注释八：1. 将解析到的 ByteBuf 向下传播");
                 fireChannelRead(ctx, out, size);
                 out.recycle();
             }

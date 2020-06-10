@@ -17,6 +17,8 @@ package io.netty.handler.codec;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.util.List;
 
@@ -38,10 +40,12 @@ import java.util.List;
  */
 public class FixedLengthFrameDecoder extends ByteToMessageDecoder {
 
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(FixedLengthFrameDecoder.class);
+
     private final int frameLength;
 
-    /**
-     * Creates a new instance.
+    /**e.
+     * Creates a new instanc
      *
      * @param frameLength the length of the frame
      */
@@ -71,9 +75,12 @@ public class FixedLengthFrameDecoder extends ByteToMessageDecoder {
      */
     protected Object decode(
             @SuppressWarnings("UnusedParameters") ChannelHandlerContext ctx, ByteBuf in) throws Exception {
+        logger.info("注释八：2. 判断可读字节");
         if (in.readableBytes() < frameLength) {
+            logger.info("注释八：2. 直接不读，父类 ByteToMessageDecoder 会 break");
             return null;
         } else {
+            logger.info("注释八：2. 读取指定长度");
             return in.readRetainedSlice(frameLength);
         }
     }

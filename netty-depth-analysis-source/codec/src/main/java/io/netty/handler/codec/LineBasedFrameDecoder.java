@@ -18,6 +18,8 @@ package io.netty.handler.codec;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.ByteProcessor;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.util.List;
 
@@ -28,6 +30,8 @@ import java.util.List;
  * For a more general delimiter-based decoder, see {@link DelimiterBasedFrameDecoder}.
  */
 public class LineBasedFrameDecoder extends ByteToMessageDecoder {
+
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(LineBasedFrameDecoder.class);
 
     /** Maximum length of a frame we're willing to decode.  */
     private final int maxLength;
@@ -93,8 +97,8 @@ public class LineBasedFrameDecoder extends ByteToMessageDecoder {
                 final ByteBuf frame;
                 final int length = eol - buffer.readerIndex();
                 final int delimLength = buffer.getByte(eol) == '\r'? 2 : 1;
-
                 if (length > maxLength) {
+                    logger.info("注释八：3. 如果 readIndex~换行符之间的长度大于最大长度，则直接丢弃这段信息");
                     buffer.readerIndex(eol + delimLength);
                     fail(ctx, length);
                     return null;
@@ -109,6 +113,7 @@ public class LineBasedFrameDecoder extends ByteToMessageDecoder {
 
                 return frame;
             } else {
+                logger.info("注释八：3. 如果这段信息中没有换行符，则丢弃");
                 final int length = buffer.readableBytes();
                 if (length > maxLength) {
                     discardedBytes = length;
@@ -153,6 +158,7 @@ public class LineBasedFrameDecoder extends ByteToMessageDecoder {
      * Returns -1 if no end of line was found in the buffer.
      */
     private static int findEndOfLine(final ByteBuf buffer) {
+        logger.info("注释八：3. 找到 \\n，如果发现 \\n 前有 \\r，则 index 指向 \\r，而不是 \\n");
         int i = buffer.forEachByte(ByteProcessor.FIND_LF);
         if (i > 0 && buffer.getByte(i - 1) == '\r') {
             i--;
