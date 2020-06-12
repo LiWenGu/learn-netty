@@ -747,6 +747,7 @@ abstract class AbstractChannelHandlerContext extends DefaultAttributeMap
 
     private void invokeWrite0(Object msg, ChannelPromise promise) {
         try {
+            logger.info("注释九：1. 向前传播：逐个调用 channelHandler 的 write 方法");
             ((ChannelOutboundHandler) handler()).write(this, msg, promise);
         } catch (Throwable t) {
             notifyOutboundHandlerException(t, promise);
@@ -785,6 +786,7 @@ abstract class AbstractChannelHandlerContext extends DefaultAttributeMap
 
     private void invokeFlush0() {
         try {
+            logger.info("注释九：1. 向前传播：逐个调用 channelHandler 的 flush 方法");
             ((ChannelOutboundHandler) handler()).flush(this);
         } catch (Throwable t) {
             notifyHandlerException(t);

@@ -24,6 +24,8 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.ChannelPromise;
 import io.netty.util.ReferenceCountUtil;
 import io.netty.util.internal.TypeParameterMatcher;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 
 /**
@@ -44,6 +46,8 @@ import io.netty.util.internal.TypeParameterMatcher;
  * </pre>
  */
 public abstract class MessageToByteEncoder<I> extends ChannelOutboundHandlerAdapter {
+
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(MessageToByteEncoder.class);
 
     private final TypeParameterMatcher matcher;
     private final boolean preferDirect;
@@ -99,16 +103,20 @@ public abstract class MessageToByteEncoder<I> extends ChannelOutboundHandlerAdap
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
         ByteBuf buf = null;
         try {
+            logger.info("注释九：2. 判断类型是否匹配对象能处理");
             if (acceptOutboundMessage(msg)) {
                 @SuppressWarnings("unchecked")
                 I cast = (I) msg;
+                logger.info("注释九：2. 分配对应对象的内存");
                 buf = allocateBuffer(ctx, cast, preferDirect);
                 try {
+                    logger.info("注释九：2. encode");
                     encode(ctx, cast, buf);
                 } finally {
+                    logger.info("注释九：2. 释放对象");
                     ReferenceCountUtil.release(cast);
                 }
-
+                logger.info("注释九：2. 传播数据");
                 if (buf.isReadable()) {
                     ctx.write(buf, promise);
                 } else {
@@ -125,6 +133,7 @@ public abstract class MessageToByteEncoder<I> extends ChannelOutboundHandlerAdap
             throw new EncoderException(e);
         } finally {
             if (buf != null) {
+                logger.info("注释九：2. 释放内存");
                 buf.release();
             }
         }

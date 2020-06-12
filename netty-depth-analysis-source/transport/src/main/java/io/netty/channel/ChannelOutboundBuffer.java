@@ -113,6 +113,7 @@ public final class ChannelOutboundBuffer {
      * the message was written.
      */
     public void addMessage(Object msg, int size, ChannelPromise promise) {
+        logger.info("注释九：3. 插入写队列");
         Entry entry = Entry.newInstance(msg, size, total(msg), promise);
         if (tailEntry == null) {
             flushedEntry = null;
@@ -175,6 +176,7 @@ public final class ChannelOutboundBuffer {
         }
 
         long newWriteBufferSize = TOTAL_PENDING_SIZE_UPDATER.addAndGet(this, size);
+        logger.info("注释九：3. io.netty.channel.WriteBufferWaterMark.DEFAULT_HIGH_WATER_MARK 写缓存区大于 64K，设置为不可写");
         if (newWriteBufferSize > channel.config().getWriteBufferHighWaterMark()) {
             setUnwritable(invokeLater);
         }
@@ -194,6 +196,7 @@ public final class ChannelOutboundBuffer {
         }
 
         long newWriteBufferSize = TOTAL_PENDING_SIZE_UPDATER.addAndGet(this, -size);
+        logger.info("注释九：4. io.netty.channel.WriteBufferWaterMark.DEFAULT_LOW_WATER_MARK 写缓存区小于 32K，设置为可写");
         if (notifyWritability && newWriteBufferSize < channel.config().getWriteBufferLowWaterMark()) {
             setWritable(invokeLater);
         }

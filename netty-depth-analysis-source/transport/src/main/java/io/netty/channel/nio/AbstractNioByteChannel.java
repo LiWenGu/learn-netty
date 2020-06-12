@@ -161,6 +161,7 @@ public abstract class AbstractNioByteChannel extends AbstractNioChannel {
         int writeSpinCount = -1;
 
         boolean setOpWrite = false;
+        logger.info("注释九：4. 遍历 buffer 队列，过滤 ByteBuf");
         for (;;) {
             Object msg = in.current();
             if (msg == null) {
@@ -181,9 +182,11 @@ public abstract class AbstractNioByteChannel extends AbstractNioChannel {
                 boolean done = false;
                 long flushedAmount = 0;
                 if (writeSpinCount == -1) {
+                    logger.info("注释九：4. 拿到自旋锁次数");
                     writeSpinCount = config().getWriteSpinCount();
                 }
                 for (int i = writeSpinCount - 1; i >= 0; i --) {
+                    logger.info("注释九：4. 调用 jdk 底层 api 进行自旋写");
                     int localFlushedAmount = doWriteBytes(buf);
                     if (localFlushedAmount == 0) {
                         setOpWrite = true;
@@ -200,6 +203,7 @@ public abstract class AbstractNioByteChannel extends AbstractNioChannel {
                 in.progress(flushedAmount);
 
                 if (done) {
+                    logger.info("注释九：4. remove entry，如果是最后一个 entry，则把所有的都设置为 null");
                     in.remove();
                 } else {
                     // Break the loop and so incompleteWrite(...) is called.
@@ -248,6 +252,7 @@ public abstract class AbstractNioByteChannel extends AbstractNioChannel {
 
     @Override
     protected final Object filterOutboundMessage(Object msg) {
+        logger.info("注释九：3. direct 化 ByteBuf");
         if (msg instanceof ByteBuf) {
             ByteBuf buf = (ByteBuf) msg;
             if (buf.isDirect()) {
