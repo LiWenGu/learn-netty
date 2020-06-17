@@ -18,6 +18,8 @@ package io.netty.util.internal;
 
 import io.netty.util.concurrent.FastThreadLocal;
 import io.netty.util.concurrent.FastThreadLocalThread;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
@@ -35,6 +37,7 @@ import java.util.WeakHashMap;
  */
 public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap {
 
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(InternalThreadLocalMap.class);
     private static final int DEFAULT_ARRAY_LIST_INITIAL_CAPACITY = 8;
 
     public static final Object UNSET = new Object();
@@ -57,6 +60,7 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
     }
 
     private static InternalThreadLocalMap fastGet(FastThreadLocalThread thread) {
+        logger.info("注释十：1. fast 直接通过 get 方法获取");
         InternalThreadLocalMap threadLocalMap = thread.threadLocalMap();
         if (threadLocalMap == null) {
             thread.setThreadLocalMap(threadLocalMap = new InternalThreadLocalMap());
@@ -65,6 +69,7 @@ public final class InternalThreadLocalMap extends UnpaddedInternalThreadLocalMap
     }
 
     private static InternalThreadLocalMap slowGet() {
+        logger.info("注释十：1. slow 通过 JDK ThreadLocal 实现");
         ThreadLocal<InternalThreadLocalMap> slowThreadLocalMap = UnpaddedInternalThreadLocalMap.slowThreadLocalMap;
         InternalThreadLocalMap ret = slowThreadLocalMap.get();
         if (ret == null) {

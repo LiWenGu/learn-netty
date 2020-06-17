@@ -17,6 +17,8 @@ package io.netty.util.concurrent;
 
 import io.netty.util.internal.InternalThreadLocalMap;
 import io.netty.util.internal.PlatformDependent;
+import io.netty.util.internal.logging.InternalLogger;
+import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.util.Collections;
 import java.util.IdentityHashMap;
@@ -43,6 +45,7 @@ import java.util.Set;
  */
 public class FastThreadLocal<V> {
 
+    private static final InternalLogger logger = InternalLoggerFactory.getInstance(FastThreadLocal.class);
     private static final int variablesToRemoveIndex = InternalThreadLocalMap.nextVariableIndex();
 
     /**
@@ -125,6 +128,7 @@ public class FastThreadLocal<V> {
     private final int index;
 
     public FastThreadLocal() {
+        logger.info("注释十：1. 每个 FastThreadLocal 对象都有自己的一个 index");
         index = InternalThreadLocalMap.nextVariableIndex();
     }
 
@@ -141,11 +145,12 @@ public class FastThreadLocal<V> {
      */
     @SuppressWarnings("unchecked")
     public final V get(InternalThreadLocalMap threadLocalMap) {
+        logger.info("注释十：1. 通过下标获取 ThreadLocalMap 数组对应的对象");
         Object v = threadLocalMap.indexedVariable(index);
         if (v != InternalThreadLocalMap.UNSET) {
             return (V) v;
         }
-
+        logger.info("注释十：1. 初始化");
         return initialize(threadLocalMap);
     }
 

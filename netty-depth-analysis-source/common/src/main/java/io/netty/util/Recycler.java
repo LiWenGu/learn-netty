@@ -421,6 +421,7 @@ public abstract class Recycler<T> {
 
         Stack(Recycler<T> parent, Thread thread, int maxCapacity, int maxSharedCapacityFactor,
               int ratioMask, int maxDelayedQueues) {
+            logger.info("注释十：2. Recycler 的创建对应 FastThreadLocal.Stack");
             this.parent = parent;
             this.thread = thread;
             this.maxCapacity = maxCapacity;
@@ -538,6 +539,7 @@ public abstract class Recycler<T> {
         }
 
         private void pushNow(DefaultHandle<?> item) {
+            logger.info("注释十：2. 同线程回收");
             if ((item.recycleId | item.lastRecycledId) != 0) {
                 throw new IllegalStateException("recycled already");
             }
